@@ -62,39 +62,56 @@ public class RegistrationSteps {
         registrationPage.age18ConfirmLabel.click();
     }
 
-    @When("Accept Code of Ethics and Conduct")
-    public void acceptCodeOfEthicsAndConduct() {
-        int maxAttempts = 5;
-        int scrollPixels = 400; // Adjust based on page structure
+//    @When("Accept Code of Ethics and Conduct")
+//    public void acceptCodeOfEthicsAndConduct() {
+//        int maxAttempts = 5;
+//        int scrollPixels = 400; // Adjust based on page structure
+//
+//        for (int attempt = 0; attempt < maxAttempts; attempt++) {
+//            try {
+//                // Try to find the element
+//                WebElement codeOfConductCheckbox = driver.findElement(
+//                        By.id("fammembersignup_agreetocodeofethicsandconduct")
+//                );
+//
+//                // If found, scroll to it and click
+//                new Actions(driver)
+//                        .moveToElement(codeOfConductCheckbox) // Auto-scrolls into view
+//                        .click()
+//                        .perform();
+//
+//                // Verify it worked
+//                if (codeOfConductCheckbox.isSelected()) {
+//                    return; // Success! Exit the method
+//                }
+//            } catch (NoSuchElementException e) {
+//                // If element not found, scroll down and retry
+//                ((JavascriptExecutor) driver).executeScript(
+//                        "window.scrollBy(0, arguments[0]);",
+//                        scrollPixels
+//                );
+//                try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
+//            }
+//        }
+//        throw new RuntimeException("Checkbox not found after scrolling");
+//    }
+@When("Accept Code of Ethics and Conduct")
+public void acceptCodeOfEthicsAndConduct() {
+    // 1. Scroll to bottom of page (brute force)
+    ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
 
-        for (int attempt = 0; attempt < maxAttempts; attempt++) {
-            try {
-                // Try to find the element
-                WebElement checkbox = driver.findElement(
-                        By.id("fammembersignup_agreetocodeofethicsandconduct")
-                );
+    // 2. Short wait for scroll to complete
+    try { Thread.sleep(1000); } catch (InterruptedException e) {}
 
-                // If found, scroll to it and click
-                new Actions(driver)
-                        .moveToElement(checkbox) // Auto-scrolls into view
-                        .click()
-                        .perform();
-
-                // Verify it worked
-                if (checkbox.isSelected()) {
-                    return; // Success! Exit the method
-                }
-            } catch (NoSuchElementException e) {
-                // If element not found, scroll down and retry
-                ((JavascriptExecutor) driver).executeScript(
-                        "window.scrollBy(0, arguments[0]);",
-                        scrollPixels
-                );
-                try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
-            }
-        }
-        throw new RuntimeException("Checkbox not found after scrolling");
+    // 3. Direct JavaScript click (3 attempts)
+    for (int i = 0; i < 3; i++) {
+        ((JavascriptExecutor)driver).executeScript(
+                "var elem = document.querySelector('input[id*=\"codeofethics\"], label[for*=\"codeofethics\"]');" +
+                        "if (elem) elem.click();"
+        );
+        try { Thread.sleep(500); } catch (InterruptedException e) {}
     }
+}
 
     @And("Click on Confirm and Join button")
     public void clickOnConfirmAndJoinButton() {
@@ -153,20 +170,52 @@ public class RegistrationSteps {
         // Implement error message verification
     }
 
-
-    @When("Enter valid {string}, {string}, {string}, {string}, {string},  {string} registration details:")
+    @When("Enter valid {string}, {string}, {string}, {string}, {string}, {string},  {string} registration details:")
     public void enterValidRegistrationDetails(String dateOfBirth, String firstName, String lastName,
-                                              String email, String password, String confirmPassword) {
+                                              String email, String confirmEmail, String password, String confirmPassword) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         wait.until(ExpectedConditions.visibilityOf(registrationPage.dateOfBirthField)).sendKeys(dateOfBirth);
         wait.until(ExpectedConditions.visibilityOf(registrationPage.firstNameField)).sendKeys(firstName);
         wait.until(ExpectedConditions.visibilityOf(registrationPage.lastNameField)).sendKeys(lastName);
         wait.until(ExpectedConditions.visibilityOf(registrationPage.emailField)).sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmEmailField)).sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.passwordField)).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmPasswordField)).sendKeys(confirmPassword);}
+
+    @Then("Click on Alert Window")
+    public void clickOnAlertWindow() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            // Wait for and click OK button directly (no separate alert check needed)
+            wait.until(ExpectedConditions.elementToBeClickable(
+                    registrationPage.alertOkButton
+            )).click();
+
+        } catch (Exception e) {
+            System.out.println("Alert handling failed: " + e.getMessage());
+            // Take screenshot for debugging if needed
+        }
+    }
+
+
+    @When("Enter valid {string}, {string}, {string}, {string}, {string}, {string} registration details:")
+    public void enterValidRegistrationDetails(String dateOfBirth, String firstName,
+                                              String email, String confirmEmail, String password, String confirmPassword) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.dateOfBirthField)).sendKeys(dateOfBirth);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.firstNameField)).sendKeys(firstName);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.emailField)).sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmEmailField)).sendKeys(email);
         wait.until(ExpectedConditions.visibilityOf(registrationPage.passwordField)).sendKeys(password);
         wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmPasswordField)).sendKeys(confirmPassword);
     }
+
+
 }
+
 
 
 //package stepdefinitions;

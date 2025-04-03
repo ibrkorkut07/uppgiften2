@@ -20,13 +20,20 @@ public class RegistrationPage {
     @FindBy(id = "member_firstname") public WebElement firstNameField;
     @FindBy(id = "member_lastname") public WebElement lastNameField;
     @FindBy(id = "member_emailaddress") public WebElement emailField;
+    @FindBy(id = "member_confirmemailaddress") public WebElement confirmEmailField;
     @FindBy(id = "signupunlicenced_password") public WebElement passwordField;
     @FindBy(id = "signupunlicenced_confirmpassword") public WebElement confirmPasswordField;
     @FindBy(css = "label[for='sign_up_25']") public WebElement termsAcceptionBox;
     @FindBy(css = "label[for='sign_up_26']") public WebElement age18ConfirmLabel;
     // @FindBy(xpath = "//label[@for='fannembersignup_agreetocodeofethicsandconduct']") public WebElement codeOfConductLabel;
     @FindBy(css = "span.inc") public WebElement codeOfConductLabel;
-    @FindBy(id = "fammembersignup_agreetocodeofethicsandconduct") public WebElement codeOfConductCheckbox;
+    @FindBy(xpath = "//*[@id=\"signup_form\"]/div[11]/div/div[2]/div[1]/label") public WebElement codeOfConductCheckbox;
+    // Add these with your other @FindBy declarations
+    @FindBy(xpath = "//h2[contains(text(), 'Change your password')]") public WebElement changePasswordAlert;
+
+    @FindBy(xpath = "//button[contains(text(), 'OK') or contains(text(), 'Continue')]") public WebElement alertOkButton;
+
+    // @FindBy(id = "fammembersignup_agreetocodeofethicsandconduct") public WebElement codeOfConductCheckbox;
     // Simple XPath
     // @FindBy(xpath = "//span[@class='inc']") public WebElement codeOfConductLabel;
 
@@ -42,7 +49,7 @@ public class RegistrationPage {
 
     // @FindBy(name = "join") public WebElement confirmAndJoinButton;
     // @FindBy(xpath = "//label[contains(.,'I have read')]/input") public WebElement codeOfConductCheckbox;
-    @FindBy(xpath = "//button[contains(.,'CONFIRM AND JOIN')]") public WebElement confirmAndJoinButton;
+    @FindBy(name = "join") public WebElement confirmAndJoinButton;
     @FindBy(xpath = "//button[contains(., 'OK')]") public WebElement changePasswordOkButton;
     @FindBy(xpath = "//h2[contains(@class, 'bold') and contains(text(), 'THANK YOU FOR CREATING AN ACCOUNT')]") public WebElement thankYouHeader;
 
