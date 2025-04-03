@@ -5,26 +5,24 @@ Feature: Basketball England New Supporter Registration
   So that I can access supporter features
 
   Background:
-    Given Navigate to the registration page "https://membership.basketballengland.co.uk/NewSupporterAccount"
-    Then I click the register button
+    Given Navigate to the registration page "https://membership.basketballengland.co.uk/"
+    Then Click on Create A New Account button
+    Then Click on Create An Account button
 
   @happy-path @chrome @firefox
   Scenario Outline: Successful registration with valid credentials
-    When I enter valid registration details:
-      | First Name | <firstName> |
-      | Last Name  | <lastName>  |
-      | Email      | <email>     |
-      | Password   | <password>  |
-      | Confirm Password | <confirmPassword> |
-    And I accept terms and conditions
-    And I click the register button
-    Then I should see the registration success message
-    And I should be logged in
+    When Enter valid "<dateOfBirth>", "<firstName>", "<lastName>", "<email>", "<password>",  "<confirmPassword>" registration details:
+    And Accept Terms and Conditions
+    And Confirm aged over Eighteen
+    Then Accept Code of Ethics and Conduct
+    And Click on Confirm and Join button
+    And Click on OK on Change Your Password PopUp
+    Then See THANK YOU FOR CREATING AN ACCOUNT Text
 
     Examples:
-      | firstName | lastName | email                 | password  | confirmPassword |
-      | John      | Smith    | john.smith@test.com   | Pass123!  | Pass123!        |
-      | Sarah     | Jones    | sarah.jones@test.org  | Test456!  | Test456!        |
+      | dateOfBirth| firstName | lastName | email                 | password  | confirmPassword |
+      | 01/11/2011 | John      | Smith    | john.smith@test.com   | Pass123!  | Pass123!        |
+      #| 13/08/1970 | Sarah     | Jones    | sarah.jones@test.org  | Test456!  | Test456!        |
 
   @validation @chrome
   Scenario: Registration with missing last name

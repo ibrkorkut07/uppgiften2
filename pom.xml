@@ -51,6 +51,12 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-devtools-v119</artifactId>
+            <version>4.16.1</version>
+        </dependency>
     </dependencies>
 
     <build>
