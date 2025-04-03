@@ -58,24 +58,15 @@ public class RegistrationSteps {
 
     @Before
     public void setup() {
-        this.driver = Driver.getDriver();
-        driver.manage().window().maximize(); // Just this one line!
+        this.driver = Driver.getDriver(); // Gets browser from system property
+        driver.manage().window().maximize();
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.registrationPage = new RegistrationPage(driver);
     }
 
     @After
     public void afterScenario(Scenario scenario) {
-        // TEST: Force a screenshot regardless of status
-        takeScreenshot("TEST");
-
-        // Original logic
-        if (scenario.isFailed()) {
-            takeScreenshot("FAILED");
-        } else {
-            takeScreenshot("PASSED");
-        }
-
+        takeScreenshot(scenario.isFailed() ? "FAILED" : "PASSED");
         Driver.quitDriver();
     }
 

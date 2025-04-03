@@ -1,30 +1,28 @@
 package utilities;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class Driver {
     private static WebDriver driver;
 
     public static WebDriver getDriver() {
+        String browser = System.getProperty("browser", "chrome"); // Default: Chrome
         if (driver == null) {
-            String browser = System.getProperty("browser", "chrome");
-
             switch (browser.toLowerCase()) {
-                case "firefox":
-                    WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver(new FirefoxOptions());
-                    break;
                 case "chrome":
+                    driver = new ChromeDriver();
+                    break;
+                case "firefox":
+                    driver = new FirefoxDriver();
+                    break;
+                case "edge":
+                    driver = new EdgeDriver();
+                    break;
                 default:
-                    WebDriverManager.chromedriver().setup();
-                    ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--remote-allow-origins=*");
-                    driver = new ChromeDriver(options);
+                    throw new IllegalArgumentException("Unsupported browser: " + browser);
             }
         }
         return driver;

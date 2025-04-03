@@ -21,7 +21,7 @@ Feature: Basketball England New Supporter Registration
       | dateOfBirth| firstName | lastName | email                 | confirmEmail          |password  | confirmPassword |
       | 01/11/2002 | James     | Smithy   | james.smithy@test.com | james.smithy@test.com |Pass12a!  | Pass12a!        |
 
-  @validation @chrome
+  @validation @chrome @firefox
   Scenario: Registration without last name
     When Enter valid date of birth "01/11/2002"
     And Enter valid first name "James"
@@ -35,7 +35,7 @@ Feature: Basketball England New Supporter Registration
     And Click on Confirm and Join button
     Then See Last Name is required Text
 
-  @validation @chrome
+  @validation @chrome @firefox
   Scenario: Registration without matching passwords
     When Enter valid date of birth "01/11/2002"
     And Enter valid first name "James"
