@@ -19,10 +19,14 @@ public class RegistrationPage {
     @FindBy(id = "dp") public WebElement dateOfBirthField;
     @FindBy(id = "member_firstname") public WebElement firstNameField;
     @FindBy(id = "member_lastname") public WebElement lastNameField;
+    @FindBy(xpath = "//span[@for='member_lastname' and contains(text(),'Last Name is required')]")
+    public WebElement lastNameRequiredError;
     @FindBy(id = "member_emailaddress") public WebElement emailField;
     @FindBy(id = "member_confirmemailaddress") public WebElement confirmEmailField;
     @FindBy(id = "signupunlicenced_password") public WebElement passwordField;
     @FindBy(id = "signupunlicenced_confirmpassword") public WebElement confirmPasswordField;
+    @FindBy(css = "span[data-valmsg-for='ConfirmPassword'].field-validation-error")
+    public WebElement confirmPasswordError;
     @FindBy(css = "label[for='sign_up_25']") public WebElement termsAcceptionBox;
     @FindBy(css = "label[for='sign_up_26']") public WebElement age18ConfirmLabel;
     // @FindBy(xpath = "//label[@for='fannembersignup_agreetocodeofethicsandconduct']") public WebElement codeOfConductLabel;
@@ -33,25 +37,10 @@ public class RegistrationPage {
 
     @FindBy(xpath = "//button[contains(text(), 'OK') or contains(text(), 'Continue')]") public WebElement alertOkButton;
 
-    // @FindBy(id = "fammembersignup_agreetocodeofethicsandconduct") public WebElement codeOfConductCheckbox;
-    // Simple XPath
-    // @FindBy(xpath = "//span[@class='inc']") public WebElement codeOfConductLabel;
-
-    // If nested in a specific structure
-    // @FindBy(xpath = "//div[@class='md-checkbox']//span[@class='inc']") public WebElement codeOfConductLabel;
-
-    // Most direct locator
-    // @FindBy(css = "span.inc") public WebElement codeOfConductLabel;
-
-    // If you need the parent checkbox context
-    // @FindBy(xpath = "//span[@class='inc']/preceding-sibling::input[@type='checkbox']") public WebElement codeOfConductLabel;
-
-
-    // @FindBy(name = "join") public WebElement confirmAndJoinButton;
-    // @FindBy(xpath = "//label[contains(.,'I have read')]/input") public WebElement codeOfConductCheckbox;
     @FindBy(name = "join") public WebElement confirmAndJoinButton;
     @FindBy(xpath = "//button[contains(., 'OK')]") public WebElement changePasswordOkButton;
-    @FindBy(xpath = "//h2[contains(@class, 'bold') and contains(text(), 'THANK YOU FOR CREATING AN ACCOUNT')]") public WebElement thankYouHeader;
+    @FindBy(xpath = "//h2[contains(@class, 'bold') and contains(text(), 'THANK YOU FOR CREATING AN ACCOUNT')]")
+    public WebElement thankYouHeader;
 
     public RegistrationPage(WebDriver driver) {
         this.driver = driver;

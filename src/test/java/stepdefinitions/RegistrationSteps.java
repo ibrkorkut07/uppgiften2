@@ -2,44 +2,81 @@ package stepdefinitions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.Scenario;
+import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.RegistrationPage;
+import utilities.ConfigReader;
 import utilities.Driver;
-
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FileUtils;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import org.apache.commons.io.FileUtils;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.nio.file.*;
+import java.io.File;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.Instant;
-import java.util.Map;
-import java.util.Set;
+import java.util.Date;
 
 public class RegistrationSteps {
     private WebDriver driver;
     private RegistrationPage registrationPage;
+    private WebDriverWait wait;
+    // Add screenshot method here ▼
+    private void takeScreenshot(String name) {
+        try {
+            // 1. Create screenshots folder if it doesn't exist
+            File folder = new File("screenshots");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            // 2. Take screenshot and save
+            File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(screenshot, new File(folder, name + ".png"));
+
+            // 3. Print confirmation
+            System.out.println("Screenshot saved to: " + folder.getAbsolutePath() + "/" + name + ".png");
+        } catch (Exception e) {
+            System.out.println("Couldn't save screenshot: " + e.getMessage());
+        }
+    }
 
     @Before
     public void setup() {
-        driver = Driver.getDriver();
-        // Handle single window only
-        driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
-        registrationPage = new RegistrationPage(driver);
+        this.driver = Driver.getDriver();
+        driver.manage().window().maximize(); // Just this one line!
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.registrationPage = new RegistrationPage(driver);
     }
 
-//    @After
-//    public void tearDown() {
-//        Driver.quitDriver();
-//    }
+    @After
+    public void afterScenario(Scenario scenario) {
+        // TEST: Force a screenshot regardless of status
+        takeScreenshot("TEST");
 
-    @Given("Navigate to the registration page {string}")
-    public void navigateToRegistrationPage(String url) {
-        driver.get(url);
+        // Original logic
+        if (scenario.isFailed()) {
+            takeScreenshot("FAILED");
+        } else {
+            takeScreenshot("PASSED");
+        }
+
+        Driver.quitDriver();
     }
 
     @When("Click on Create A New Account button")
@@ -62,39 +99,6 @@ public class RegistrationSteps {
         registrationPage.age18ConfirmLabel.click();
     }
 
-//    @When("Accept Code of Ethics and Conduct")
-//    public void acceptCodeOfEthicsAndConduct() {
-//        int maxAttempts = 5;
-//        int scrollPixels = 400; // Adjust based on page structure
-//
-//        for (int attempt = 0; attempt < maxAttempts; attempt++) {
-//            try {
-//                // Try to find the element
-//                WebElement codeOfConductCheckbox = driver.findElement(
-//                        By.id("fammembersignup_agreetocodeofethicsandconduct")
-//                );
-//
-//                // If found, scroll to it and click
-//                new Actions(driver)
-//                        .moveToElement(codeOfConductCheckbox) // Auto-scrolls into view
-//                        .click()
-//                        .perform();
-//
-//                // Verify it worked
-//                if (codeOfConductCheckbox.isSelected()) {
-//                    return; // Success! Exit the method
-//                }
-//            } catch (NoSuchElementException e) {
-//                // If element not found, scroll down and retry
-//                ((JavascriptExecutor) driver).executeScript(
-//                        "window.scrollBy(0, arguments[0]);",
-//                        scrollPixels
-//                );
-//                try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
-//            }
-//        }
-//        throw new RuntimeException("Checkbox not found after scrolling");
-//    }
 @When("Accept Code of Ethics and Conduct")
 public void acceptCodeOfEthicsAndConduct() {
     // 1. Scroll to bottom of page (brute force)
@@ -132,42 +136,28 @@ public void acceptCodeOfEthicsAndConduct() {
         }
     }
 
-    @And("Click on OK on Change Your Password PopUp")
-    public void clickOnOKOnChangeYourPasswordPopUp() {
-        // Wait for the alert to appear (max 10 seconds)
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-
-        // Get the alert text (optional)
-        System.out.println("Alert Text: " + alert.getText());
-
-        // Click "OK" to accept the alert
-        alert.accept();
-    }
-
     @Then("See THANK YOU FOR CREATING AN ACCOUNT Text")
     public void seeThankYouText() {
-        Assert.assertTrue("Thank you header is not displayed",
-                registrationPage.thankYouHeader.isDisplayed());
-    }
+        try {
+            // Wait for thank you message to appear
+            WebElement thankYouElement = wait.until(ExpectedConditions.visibilityOf(
+                    registrationPage.thankYouHeader
+            ));
 
-    // Negative test steps
-//    @When("I enter registration details without last name")
-//    public void registerWithoutLastName() {
-//        registrationPage.enterRegistrationDetails("01/01/1990", "Test", "", "test@example.com", "Pass123!", "Pass123!");
-//    }
-//
-//    @When("I enter registration details with password mismatch:")
-//    public void enterMismatchedPasswords(io.cucumber.datatable.DataTable dataTable) {
-//        Map<String, String> data = dataTable.asMap(String.class, String.class);
-//        registrationPage.enterRegistrationDetails(
-//                "01/01/1990", "Test", "User", "test@example.com",
-//                data.get("Password"), data.get("Confirm Password"));
-//    }
+            // Assert the message is displayed
+            Assert.assertTrue(
+                    "THANK YOU message not displayed",
+                    thankYouElement.isDisplayed()
+            );
 
-    @Then("I should see error {string}")
-    public void verifyErrorMessage(String expectedError) {
-        // Implement error message verification
+            // Take screenshot on SUCCESS (optional)
+            takeScreenshot("registration_success_" + System.currentTimeMillis());
+
+        } catch (Exception e) {
+            // Take screenshot on FAILURE
+            takeScreenshot("registration_failed_no_thank_you_message");
+            throw new AssertionError("THANK YOU message verification failed: " + e.getMessage(), e);
+        }
     }
 
     @When("Enter valid {string}, {string}, {string}, {string}, {string}, {string},  {string} registration details:")
@@ -183,21 +173,21 @@ public void acceptCodeOfEthicsAndConduct() {
         wait.until(ExpectedConditions.visibilityOf(registrationPage.passwordField)).sendKeys(password);
         wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmPasswordField)).sendKeys(confirmPassword);}
 
-    @Then("Click on Alert Window")
-    public void clickOnAlertWindow() {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-            // Wait for and click OK button directly (no separate alert check needed)
-            wait.until(ExpectedConditions.elementToBeClickable(
-                    registrationPage.alertOkButton
-            )).click();
-
-        } catch (Exception e) {
-            System.out.println("Alert handling failed: " + e.getMessage());
-            // Take screenshot for debugging if needed
-        }
-    }
+//    @Then("Click on Alert Window")
+//    public void clickOnAlertWindow() {
+//        try {
+//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//
+//            // Wait for and click OK button directly (no separate alert check needed)
+//            wait.until(ExpectedConditions.elementToBeClickable(
+//                    registrationPage.alertOkButton
+//            )).click();
+//
+//        } catch (Exception e) {
+//            System.out.println("Alert handling failed: " + e.getMessage());
+//            // Take screenshot for debugging if needed
+//        }
+//    }
 
 
     @When("Enter valid {string}, {string}, {string}, {string}, {string}, {string} registration details:")
@@ -213,184 +203,149 @@ public void acceptCodeOfEthicsAndConduct() {
         wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmPasswordField)).sendKeys(confirmPassword);
     }
 
+    @Given("Given Navigate to the registration page {string}")
+    public void navigateToRegistrationPage(String url) {
+        String actualUrl = ConfigReader.getProperty(url); // This reads from your properties file
+        driver.get(actualUrl);}
 
+    private void enterText(By locator, String text) {
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        element.clear();
+        element.sendKeys(text);
+    }
+
+    // Date of Birth
+    @When("Enter valid date of birth {string}")
+    public void enterDateOfBirth(String dob) {
+        try {
+            WebElement dobField = wait.until(ExpectedConditions.elementToBeClickable(By.id("dp")));
+            dobField.clear();
+            dobField.sendKeys(dob);
+        } catch (Exception e) {
+            takeScreenshot("enter_date_of_birth_failed");
+            throw e;
+        }
+    }
+
+    // First Name
+    @When("Enter valid first name {string}")
+    public void enterFirstName(String firstName) {
+        try {
+            WebElement firstNameField = wait.until(ExpectedConditions.elementToBeClickable(By.id("member_firstname")));
+            firstNameField.clear();
+            firstNameField.sendKeys(firstName);
+        } catch (Exception e) {
+            takeScreenshot("enter_first_name_failed");
+            throw e;
+        }
+    }
+
+    // Last Name (optional for your scenario)
+    @When("Enter valid last name {string}")
+    public void enterLastName(String lastName) {
+        try {
+            WebElement firstNameField = wait.until(ExpectedConditions.elementToBeClickable(By.id("member_lastname")));
+            firstNameField.clear();
+            firstNameField.sendKeys(lastName);
+        } catch (Exception e) {
+            takeScreenshot("enter_last_name_failed");
+            throw e;
+        }
+    }
+
+    // Email
+    @When("Enter valid email {string}")
+    public void enterEmail(String email) {
+        try {
+            WebElement emailField = wait.until(ExpectedConditions.elementToBeClickable(By.id("member_emailaddress")));
+            emailField.clear();
+            emailField.sendKeys(email);
+        } catch (Exception e) {
+            takeScreenshot("enter_email_failed");
+            throw e;
+        }
+    }
+
+    // Confirm Email
+    @When("Enter valid confirm email {string}")
+    public void enterConfirmEmail(String confirmEmail) {
+        try {
+            WebElement confirmEmailField = wait.until(ExpectedConditions.elementToBeClickable(By.id("member_confirmemailaddress")));
+            confirmEmailField.clear();
+            confirmEmailField.sendKeys(confirmEmail);
+        } catch (Exception e) {
+            takeScreenshot("enter_confirm_email_failed");
+            throw e;
+        }
+    }
+
+    // Password
+    @When("Enter valid password {string}")
+    public void enterPassword(String password) {
+        try {
+            WebElement passwordField = wait.until(ExpectedConditions.elementToBeClickable(By.id("signupunlicenced_password")));
+            passwordField.clear();
+            passwordField.sendKeys(password);
+        } catch (Exception e) {
+            takeScreenshot("enter_password_failed");
+            throw e;
+        }
+    }
+
+    // Confirm Password
+    @When("Enter valid confirm password {string}")
+    public void enterConfirmPassword(String confirmPassword) {
+        try {
+            WebElement confirmPasswordField = wait.until(ExpectedConditions.elementToBeClickable(By.id("signupunlicenced_confirmpassword")));
+            confirmPasswordField.clear();
+            confirmPasswordField.sendKeys(confirmPassword);
+        } catch (Exception e) {
+            takeScreenshot("enter_confirm_password_failed");
+            throw e;
+        }
+    }
+
+
+    @But("Do NOT Accept Terms and Conditions")
+    public void doNOTAcceptTermsAndConditions() {
+    }
+
+    @Then("See Last Name is required Text")
+    public void seeLastNameIsRequiredText() {
+        // Take screenshot before verification
+        takeScreenshot("last_name_validation_start");
+
+        try {
+            WebElement error = registrationPage.lastNameRequiredError;
+            Assert.assertTrue("Last Name error not visible", error.isDisplayed());
+
+            // Take screenshot after success
+            takeScreenshot("last_name_validation_success");
+        } catch (Exception e) {
+            // Take screenshot on failure
+            takeScreenshot("last_name_validation_failed");
+            throw e;
+        }
+    }
+
+    @Then("See password confirmation error Text")
+    public void seePasswordConfirmationErrorText() {
+        try {
+            // Wait for error to be visible
+            WebElement errorElement = wait.until(ExpectedConditions.visibilityOf(
+                    registrationPage.confirmPasswordError
+            ));
+
+            // Assert error is displayed and red (optional style check)
+            Assert.assertTrue("Password confirmation error not displayed",
+                    errorElement.isDisplayed());
+            Assert.assertEquals("Error message not red",
+                    "color: red;", errorElement.getAttribute("style"));
+
+        } catch (Exception e) {
+            // Take screenshot on failure
+            takeScreenshot("confirm_password_error_failed");
+            throw new AssertionError("Password confirmation validation failed: " + e.getMessage(), e);
+        }
+    }
 }
-
-
-
-//package stepdefinitions;
-//
-//import io.cucumber.java.Before;
-//import io.cucumber.java.en.And;
-//import io.cucumber.java.en.Given;
-//import io.cucumber.java.en.Then;
-//import io.cucumber.java.en.When;
-//import org.junit.Assert;
-//import org.openqa.selenium.JavascriptExecutor;
-//import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.interactions.Actions;
-//import org.openqa.selenium.support.ui.WebDriverWait;
-//import pages.RegistrationPage;
-//import utilities.Driver;
-//
-//import java.awt.*;
-//import java.time.Duration;
-//import java.util.Map;
-//
-//public class RegistrationSteps {
-//    private WebDriver driver;
-//    private RegistrationPage registrationPage;
-//    private String thankYouHeader;
-//    // Actions actions = new Actions(driver);
-//
-//    // RegistrationPage registrationPages = new RegistrationPage();
-//
-//    // Constructor injection
-//    public RegistrationSteps() {
-//        Driver DriverFactory = null;
-//        this.driver = DriverFactory.getDriver(); // Get driver instance
-//        this.registrationPage = new RegistrationPage(driver);
-//    }
-//
-//    @Before
-//    public void setup() {
-//        // Additional setup if needed
-//    }
-////    private WebDriver driver;
-////    private RegistrationPage registrationPage;
-////
-////    @Before
-////    public void setUp() {
-////        // Browser setup handled through hooks
-////        registrationPage = new RegistrationPage(driver);
-////    }
-//
-//    @Given("Navigate to the registration page {string}")
-//    public void navigateToRegistrationPage(String url) {
-//        driver.get(url);
-//        waitForPageLoad();
-//    }
-//
-//    // Happy path steps
-//    @When("Enter valid {string}, {string}, {string}, {string}, {string},  {string} registration details:")
-//    public void enterValidRegistrationDetails(String dateOfBirth, String firstName, String lastName, String email, String password, String confirmPassword) {
-//
-//        registrationPage.dateOfBirthField.sendKeys(dateOfBirth);
-//        registrationPage.firstNameField.sendKeys(firstName);
-//        registrationPage.lastNameField.sendKeys(lastName);
-//        registrationPage.emailField.sendKeys(email);
-//        registrationPage.passwordField.sendKeys(password);
-//        registrationPage.confirmPasswordField.sendKeys(confirmPassword);
-//    }
-//
-//    @When("Accept Terms and Conditions")
-//    public void acceptTerms() {
-//        Actions actions = new Actions(driver);
-//        registrationPage.termsAcceptionBox.click();
-//        actions.scrollToElement(registrationPage.confirmAndJoinButton).perform();
-//    }
-//
-//    @And("Confirm aged over Eighteen")
-//    public void confirmAgedOver() {
-//        Actions actions = new Actions(driver);
-//        actions.scrollToElement(registrationPage.age18ConfirmLabel).perform();
-//        registrationPage.age18ConfirmLabel.click();
-//    }
-//
-//    @Then("Accept Code of Ethics and Conduct")
-//    public void acceptCodeOfEthicsAndConduct() {
-//        Actions actions = new Actions(driver);
-//        actions.scrollToElement(registrationPage.agreeToCodeOfConductLabel).perform();
-//        registrationPage.agreeToCodeOfConductLabel.click();
-//    }
-//
-//    @And("Click on Confirm and Join button")
-//    public void clickOnConfirmAndJoinButton() {
-//        Actions actions = new Actions(driver);
-//        actions.scrollToElement(registrationPage.confirmAndJoinButton).perform();
-//        registrationPage.confirmAndJoinButton.click();
-//    }
-//
-//    @And("Click on OK on Change Your Password PopUp")
-//    public void clickOnOKOnChangeYourPasswordPopUp() {
-//        registrationPage.changePasswordOkButton.click();
-//    }
-//
-//    @Then("See THANK YOU FOR CREATING AN ACCOUNT Text")
-//    public void seeTHANKYOUFORCREATINGANACCOUNTText() {
-//
-//        Assert.assertTrue(thankYouHeader.contains("THANK YOU FOR CREATING AN ACCOUNT"));
-//    }
-//
-//
-//
-////    String confirmationText = thankYouHeader.getText();
-////Assert.assertTrue(confirmationText.contains("THANK YOU FOR CREATING AN ACCOUNT"));
-//
-//    @When("Click on the register button")
-//    public void clickRegister() {
-//        // registrationPage.clickRegisterButton();
-//    }
-//
-//    @Then("See the successful registration message")
-//    public void verifySuccessMessage() {
-//        // String actualMessage = registrationPage.getSuccessMessage();
-//        // Assert.assertEquals("Registration successful message not shown",
-//                // "Your account has been created", actualMessage);
-//    }
-//
-//    // Negative test steps
-//    @When("I enter registration details without last name")
-//    public void registerWithoutLastName() {
-//        registrationPage.enterFirstName("Test");
-//        registrationPage.enterEmail("test@example.com");
-//        registrationPage.enterPassword("Pass123!");
-//        registrationPage.enterConfirmPassword("Pass123!");
-//        // registrationPage.acceptTermsCheckbox();
-//    }
-//
-//    @When("I enter registration details with password mismatch:")
-//    public void enterMismatchedPasswords(Map<String, String> data) {
-//        registrationPage.enterFirstName("Test");
-//        registrationPage.enterLastName("User");
-//        registrationPage.enterEmail("test@example.com");
-//        registrationPage.enterPassword(data.get("Password"));
-//        registrationPage.enterConfirmPassword(data.get("Confirm Password"));
-//        // registrationPage.acceptTermsCheckbox();
-//    }
-//
-//    @When("I don't accept terms and conditions")
-//    public void doNotAcceptTerms() {
-//        // Intentionally left blank as terms are not accepted
-//    }
-//
-//    @Then("I should see error {string}")
-//    public void verifyErrorMessage(String expectedError) {
-//        // String actualError = registrationPage.getErrorMessage();
-//        // Assert.assertEquals("Error message not as expected", expectedError, actualError);
-//    }
-//
-//    // Private method with explicit wait
-//    private void waitForPageLoad() {
-//        new WebDriverWait(driver, Duration.ofSeconds(10))
-//                .until(d -> ((JavascriptExecutor) d)
-//                        .executeScript("return document.readyState").equals("complete"));
-//    }
-//
-//    @And("Logged in")
-//    public void iShouldBeLoggedIn() {
-//    }
-//
-//    @Then("Click on Create A New Account button")
-//    public void clickOnCreateANewAccountButton() {
-//        registrationPage.createANewAccount.click();
-//    }
-//
-//    @Then("Click on Create An Account button")
-//    public void clickOnCreateAnAccountButton() {
-//        registrationPage.createAccountButton.click();
-//    }
-//
-//
-//
-//}
