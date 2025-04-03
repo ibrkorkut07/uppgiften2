@@ -41,6 +41,8 @@ public class RegistrationPage {
     @FindBy(xpath = "//button[contains(., 'OK')]") public WebElement changePasswordOkButton;
     @FindBy(xpath = "//h2[contains(@class, 'bold') and contains(text(), 'THANK YOU FOR CREATING AN ACCOUNT')]")
     public WebElement thankYouHeader;
+    @FindBy(xpath = "//span[@for='TermsAccept' and contains(text(), 'You must confirm that you have read and accepted our Terms and Conditions')]")
+    public WebElement acceptTermsMessage;
 
     public RegistrationPage(WebDriver driver) {
         this.driver = driver;

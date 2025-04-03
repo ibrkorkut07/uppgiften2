@@ -40,7 +40,7 @@ public class RegistrationSteps {
     private void takeScreenshot(String name) {
         try {
             // 1. Create screenshots folder if it doesn't exist
-            File folder = new File("screenshots");
+            File folder = new File("C:\\Users\\ibrko\\OneDrive\\Desktop\\000 EC TESTER PROGRAM\\02 INTRODUCTION TO TILL PROGRAMMERING\\testAutomation_Uppgiften2\\test-output\\screenshots");
             if (!folder.exists()) {
                 folder.mkdir();
             }
@@ -337,6 +337,21 @@ public void acceptCodeOfEthicsAndConduct() {
             // Take screenshot on failure
             takeScreenshot("confirm_password_error_failed");
             throw new AssertionError("Password confirmation validation failed: " + e.getMessage(), e);
+        }
+    }
+
+    @Then("See Terms and Conditions confirmation error Text")
+    public void seeTermsAndConditionsConfirmationErrorText() {
+        try {
+            WebElement error = registrationPage.acceptTermsMessage;
+            Assert.assertTrue("Terms confirmation error not visible", error.isDisplayed());
+
+            // Take screenshot after success
+            takeScreenshot("Terms_confirmation_success");
+        } catch (Exception e) {
+            // Take screenshot on failure
+            takeScreenshot("Terms_confirmation_failed");
+            throw e;
         }
     }
 }

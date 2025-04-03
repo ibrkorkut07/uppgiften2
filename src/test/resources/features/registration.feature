@@ -63,4 +63,4 @@ Feature: Basketball England New Supporter Registration
     And Confirm aged over Eighteen
     Then Accept Code of Ethics and Conduct
     And Click on Confirm and Join button
-    Then See THANK YOU FOR CREATING AN ACCOUNT Text
+    Then See Terms and Conditions confirmation error Text
