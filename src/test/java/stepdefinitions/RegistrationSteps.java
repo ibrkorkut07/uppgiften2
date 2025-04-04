@@ -181,7 +181,6 @@ public void acceptCodeOfEthicsAndConduct() {
         }
     }
 */
-
     @When("Enter valid {string}, {string}, {string}, {string}, {string}, {string} registration details:")
     public void enterValidRegistrationDetails(String dateOfBirth, String firstName,
                                               String email, String confirmEmail, String password, String confirmPassword) {
@@ -195,7 +194,7 @@ public void acceptCodeOfEthicsAndConduct() {
         wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmPasswordField)).sendKeys(confirmPassword);
     }
 
-    @Given("Given Navigate to the registration page {string}")
+    @Given("Navigate to the registration page {string}")
     public void navigateToRegistrationPage(String url) {
         String actualUrl = ConfigReader.getProperty(url); // This reads from your properties file
         driver.get(actualUrl);}

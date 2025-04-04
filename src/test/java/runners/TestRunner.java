@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
                 "json:target/cucumber.json",
                 "junit:target/junit-reports/Cucumber.xml"
         },
-        features = "src/test/resources/features"
+        features = "src/test/resources/features",
+        glue = "stepdefinitions"
 )
 public class TestRunner {}

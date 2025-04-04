@@ -13,37 +13,50 @@
         <maven.compiler.target>18</maven.compiler.target>
         <cucumber.version>7.14.0</cucumber.version>
         <selenium.version>4.16.1</selenium.version>
+        <webdrivermanager.version>5.6.3</webdrivermanager.version>
     </properties>
 
     <dependencies>
         <!-- WebDriver Manager -->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>5.6.3</version>
-        </dependency>
-
+<!--        <dependency>-->
+<!--            <groupId>io.github.bonigarcia</groupId>-->
+<!--            <artifactId>webdrivermanager</artifactId>-->
+<!--            <version>5.6.3</version>-->
+<!--        </dependency>-->
         <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <!-- WebDriverManager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
         <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
-
+<!--        <dependency>-->
+<!--            <groupId>io.cucumber</groupId>-->
+<!--            <artifactId>cucumber-java</artifactId>-->
+<!--            <version>7.15.0</version> &lt;!&ndash; Match all Cucumber versions &ndash;&gt;-->
+<!--        </dependency>-->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-
         <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
@@ -51,13 +64,11 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-devtools-v119</artifactId>
             <version>4.16.1</version>
         </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -80,3 +91,22 @@
         </plugins>
     </build>
 </project>
+
+<!--        cd "C:\Users\ibrko\OneDrive\Desktop\000 EC TESTER PROGRAM\02 INTRODUCTION TO TILL PROGRAMMERING\testAutomation_Uppgiften2"-->
+<!--  To CLEAN your project (it runs in Chrome): mvn clean install
+      To VERIFY DEPENDENCIES: mvn dependency:tree | grep selenium
+      To RUN TESTS: mvn test -Dbrowser=firefox                  -->
+
+<!--    Run SPECIFIC TESTS with Maven: Tag your Scenario in the feature file (e.g., @smoke):
+        Method 1:   Combine tags (AND/OR logic):
+                # AND (both tags): mvn test -Dcucumber.filter.tags="@smoke and @firefox"
+                # OR (either tag): mvn test -Dcucumber.filter.tags="@smoke or @regression"
+                # Exclude tags: mvn test -Dcucumber.filter.tags="not @wip"
+        Method 2:   Run by Tag (Recommended)
+                    mvn test -Dbrowser=firefox -Dcucumber.filter.tags="@smoke"
+        Method 3:   Run by Scenario Name (Use the exact Scenario name (spaces matter!):
+                    mvn test -Dbrowser=firefox -Dcucumber.features=
+                    "src/test/resources/features/registration.feature" -Dcucumber.filter.name="^Successful registration with valid credentials$"
+        Method 4:   Run by Line Number
+                    mvn test -Dbrowser=firefox -Dcucumber.features="src/test/resources/features/registration.feature:22"
+-->

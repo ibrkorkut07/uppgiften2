@@ -2,7 +2,7 @@
 Feature: Basketball England New Supporter Registration
 
   Background:
-    Given Given Navigate to the registration page "BasEngUrl"
+    Given Navigate to the registration page "BasEngUrl"
     Then Click on Create A New Account button
     Then Click on Create An Account button
 
@@ -21,6 +21,8 @@ Feature: Basketball England New Supporter Registration
       | dateOfBirth| firstName | lastName | email                 | confirmEmail          |password  | confirmPassword |
       | 01/11/2002 | James     | Smithy   | james.smithy@test.com | james.smithy@test.com |Pass12a!  | Pass12a!        |
 
+      # mvn clean test -Dbrowser=firefox
+      # mvn test -Dbrowser=firefox -Dcucumber.filter.tags="@firefox"
   @validation @chrome @firefox
   Scenario: Registration without last name
     When Enter valid date of birth "01/11/2002"
@@ -35,7 +37,7 @@ Feature: Basketball England New Supporter Registration
     And Click on Confirm and Join button
     Then See Last Name is required Text
 
-  @validation @chrome @firefox
+  @validation @chrome
   Scenario: Registration without matching passwords
     When Enter valid date of birth "01/11/2002"
     And Enter valid first name "James"
@@ -50,7 +52,7 @@ Feature: Basketball England New Supporter Registration
     And Click on Confirm and Join button
     Then See password confirmation error Text
 
-  @validation @chrome
+  @validation @firefox
   Scenario: Registration without accepting Terms and Conditions
     When Enter valid date of birth "01/11/2002"
     And Enter valid first name "James"
