@@ -23,7 +23,7 @@ Feature: Basketball England New Supporter Registration
 
       # mvn clean test -Dbrowser=firefox
       # mvn test -Dbrowser=firefox -Dcucumber.filter.tags="@firefox"
-  @validation @chrome @firefox
+  @validation @chrome
   Scenario: Registration without last name
     When Enter valid date of birth "01/11/2002"
     And Enter valid first name "James"
@@ -52,7 +52,7 @@ Feature: Basketball England New Supporter Registration
     And Click on Confirm and Join button
     Then See password confirmation error Text
 
-  @validation @firefox
+  @validation
   Scenario: Registration without accepting Terms and Conditions
     When Enter valid date of birth "01/11/2002"
     And Enter valid first name "James"

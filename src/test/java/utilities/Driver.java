@@ -10,7 +10,7 @@ public class Driver {
     private static WebDriver driver;
 
     public static WebDriver getDriver() {
-        String browser = System.getProperty("browser", "chrome"); // Default: Chrome
+        String browser = System.getProperty("browser", "firefox"); // Default: Chrome
         if (driver == null) {
             switch (browser.toLowerCase()) {
                 case "chrome":
@@ -18,7 +18,7 @@ public class Driver {
                     break;
                 case "firefox":
                     FirefoxOptions options = new FirefoxOptions();
-                    options.setBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe");  // Note double backslashes
+                    options.setBinary("C:/Program Files/Mozilla Firefox/firefox.exe");
                     driver = new FirefoxDriver(options);
                     break;
                 case "edge":

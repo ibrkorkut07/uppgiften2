@@ -17,12 +17,6 @@
     </properties>
 
     <dependencies>
-        <!-- WebDriver Manager -->
-<!--        <dependency>-->
-<!--            <groupId>io.github.bonigarcia</groupId>-->
-<!--            <artifactId>webdrivermanager</artifactId>-->
-<!--            <version>5.6.3</version>-->
-<!--        </dependency>-->
         <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -46,11 +40,7 @@
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.cucumber</groupId>-->
-<!--            <artifactId>cucumber-java</artifactId>-->
-<!--            <version>7.15.0</version> &lt;!&ndash; Match all Cucumber versions &ndash;&gt;-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
@@ -95,9 +85,9 @@
 <!--        cd "C:\Users\ibrko\OneDrive\Desktop\000 EC TESTER PROGRAM\02 INTRODUCTION TO TILL PROGRAMMERING\testAutomation_Uppgiften2"-->
 <!--  To CLEAN your project (it runs in Chrome): mvn clean install
       To VERIFY DEPENDENCIES: mvn dependency:tree | grep selenium
-      To RUN TESTS: mvn test -Dbrowser=firefox                  -->
+      To RUN TESTS on Firefox WITHOUT CHANGING DRIVER: mvn test -Dbrowser=firefox                  -->
 
-<!--    Run SPECIFIC TESTS with Maven: Tag your Scenario in the feature file (e.g., @smoke):
+<!--    Run SPECIFIC TESTS on IntelliJ with Maven: Tag your Scenario in the feature file (e.g., @smoke):
         Method 1:   Combine tags (AND/OR logic):
                 # AND (both tags): mvn test -Dcucumber.filter.tags="@smoke and @firefox"
                 # OR (either tag): mvn test -Dcucumber.filter.tags="@smoke or @regression"
@@ -105,8 +95,13 @@
         Method 2:   Run by Tag (Recommended)
                     mvn test -Dbrowser=firefox -Dcucumber.filter.tags="@smoke"
         Method 3:   Run by Scenario Name (Use the exact Scenario name (spaces matter!):
-                    mvn test -Dbrowser=firefox -Dcucumber.features=
-                    "src/test/resources/features/registration.feature" -Dcucumber.filter.name="^Successful registration with valid credentials$"
+                    mvn test -Dbrowser=firefox -Dcucumber.features="src/test/resources/features/registration.feature" -Dcucumber.filter.name="^Successful registration with valid credentials$"
         Method 4:   Run by Line Number
-                    mvn test -Dbrowser=firefox -Dcucumber.features="src/test/resources/features/registration.feature:22"
+                    1. Escape the Colon (PowerShell-specific) (Note the backtick before the colon)
+                    mvn test -Dbrowser=firefox "-Dcucumber.features=src/test/resources/features/registration.feature`:27"
+                    2. Use Single Quotes + Escape
+                    mvn test -Dbrowser=firefox '-Dcucumber.features=src/test/resources/features/registration.feature:27'
+                    3. Use Double Quotes at the end
+                    mvn test "-Dbrowser=firefox" "-Dcucumber.features=`"src/test/resources/features/registration.feature:27`""
+
 -->
