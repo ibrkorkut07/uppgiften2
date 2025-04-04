@@ -32,7 +32,7 @@ public class RegistrationPage {
     // @FindBy(xpath = "//label[@for='fannembersignup_agreetocodeofethicsandconduct']") public WebElement codeOfConductLabel;
     @FindBy(css = "span.inc") public WebElement codeOfConductLabel;
     @FindBy(xpath = "//*[@id=\"signup_form\"]/div[11]/div/div[2]/div[1]/label") public WebElement codeOfConductCheckbox;
-    // Add these with your other @FindBy declarations
+
     @FindBy(xpath = "//h2[contains(text(), 'Change your password')]") public WebElement changePasswordAlert;
 
     @FindBy(xpath = "//button[contains(text(), 'OK') or contains(text(), 'Continue')]") public WebElement alertOkButton;
@@ -54,39 +54,23 @@ public class RegistrationPage {
     public void enterFirstName(String firstName) {
         wait.until(ExpectedConditions.visibilityOf(firstNameField)).sendKeys(firstName);
     }
-
-    public void enterLastName(String lastName) {
-        wait.until(ExpectedConditions.visibilityOf(lastNameField)).sendKeys(lastName);
-    }
-
-    public void enterEmail(String email) {
-        wait.until(ExpectedConditions.visibilityOf(emailField)).sendKeys(email);
-    }
-
-    public void enterPassword(String password) {
-        wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
-    }
-
-    public void enterConfirmPassword(String password) {
-        wait.until(ExpectedConditions.visibilityOf(confirmPasswordField)).sendKeys(password);
-    }
-
-    public void enterValidRegistrationDetails(String dateOfBirth, String firstName, String lastName, String email, String password, String confirmPassword) {
-    }
-
-//    public void acceptTermsCheckbox() {
-//        wait.until(ExpectedConditions.elementToBeClickable(termsCheckbox)).click();
+//
+//    public void enterLastName(String lastName) {
+//        wait.until(ExpectedConditions.visibilityOf(lastNameField)).sendKeys(lastName);
+//    }
+//    public void enterEmail(String email) {
+//        wait.until(ExpectedConditions.visibilityOf(emailField)).sendKeys(email);
 //    }
 //
-//    public void clickRegisterButton() {
-//        wait.until(ExpectedConditions.elementToBeClickable(registerButton)).click();
+//    public void enterPassword(String password) {
+//        wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
 //    }
 //
-//    public String getSuccessMessage() {
-//        return wait.until(ExpectedConditions.visibilityOf(successMessage)).getText();
+//    public void enterConfirmPassword(String password) {
+//        wait.until(ExpectedConditions.visibilityOf(confirmPasswordField)).sendKeys(password);
 //    }
 //
-//    public String getErrorMessage() {
-//        return wait.until(ExpectedConditions.visibilityOf(errorMessage)).getText();
+//    public void enterValidRegistrationDetails(String dateOfBirth, String firstName, String lastName, String email, String password, String confirmPassword) {
 //    }
+
 }

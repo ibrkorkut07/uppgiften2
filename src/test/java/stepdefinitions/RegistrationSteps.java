@@ -164,22 +164,23 @@ public void acceptCodeOfEthicsAndConduct() {
         wait.until(ExpectedConditions.visibilityOf(registrationPage.passwordField)).sendKeys(password);
         wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmPasswordField)).sendKeys(confirmPassword);}
 
-//    @Then("Click on Alert Window")
-//    public void clickOnAlertWindow() {
-//        try {
-//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//
-//            // Wait for and click OK button directly (no separate alert check needed)
-//            wait.until(ExpectedConditions.elementToBeClickable(
-//                    registrationPage.alertOkButton
-//            )).click();
-//
-//        } catch (Exception e) {
-//            System.out.println("Alert handling failed: " + e.getMessage());
-//            // Take screenshot for debugging if needed
-//        }
-//    }
+/*
+    @Then("Click on Alert Window")
+    public void clickOnAlertWindow() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
+            // Wait for and click OK button directly (no separate alert check needed)
+            wait.until(ExpectedConditions.elementToBeClickable(
+                    registrationPage.alertOkButton
+            )).click();
+
+        } catch (Exception e) {
+            System.out.println("Alert handling failed: " + e.getMessage());
+            // Take screenshot for debugging if needed
+        }
+    }
+*/
 
     @When("Enter valid {string}, {string}, {string}, {string}, {string}, {string} registration details:")
     public void enterValidRegistrationDetails(String dateOfBirth, String firstName,
