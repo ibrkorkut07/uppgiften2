@@ -1,5 +1,5 @@
-@registration
-Feature: Basketball England New Supporter Registration
+  @registration
+  Feature: Basketball England New Supporter Registration
 
   Background:
     Given Navigate to the registration page "BasEngUrl"
@@ -20,35 +20,8 @@ Feature: Basketball England New Supporter Registration
     Examples:
       | dateOfBirth| firstName | lastName | email                 | confirmEmail          |password  | confirmPassword |
       | 01/12/1999 | James     | Smithy   | james.smithy@test.com | james.smithy@test.com |Pass12a!  | Pass12a!        |
-
-  @lastNameValidation @chrome
-  Scenario: Registration without last name
-    When Enter valid date of birth "01/11/2002"
-    And Enter valid first name "James"
-    And Enter valid email "test@example.com"
-    And Enter valid confirm email "test@example.com"
-    And Enter valid password "Pass123!"
-    And Enter valid confirm password "Pass123!"
-    And Accept Terms and Conditions
-    And Confirm aged over Eighteen
-    Then Accept Code of Ethics and Conduct
-    And Click on Confirm and Join button
-    Then See Last Name is required Text
-
-  @confirmPasswordValidation @chrome
-  Scenario: Registration without matching passwords
-    When Enter valid date of birth "01/11/2002"
-    And Enter valid first name "James"
-    And Enter valid last name "Johns"
-    And Enter valid email "test@example.com"
-    And Enter valid confirm email "test@example.com"
-    And Enter valid password "Pass123!"
-    And Enter valid confirm password "Pass12a!"
-    And Accept Terms and Conditions
-    And Confirm aged over Eighteen
-    Then Accept Code of Ethics and Conduct
-    And Click on Confirm and Join button
-    Then See password confirmation error Text
+      | 01/12/1999 | James     |          | james.smithy@test.com | james.smithy@test.com |Pass12a!  | Pass12a!        |
+      | 01/12/1999 | James     | Smithy   | james.smithy@test.com | james.smithy@test.com |Pass12a!  | Pass12b!        |
 
   @acceptTermsValidation
   Scenario: Registration without accepting Terms and Conditions
