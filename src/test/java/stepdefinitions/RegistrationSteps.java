@@ -75,22 +75,22 @@ public class RegistrationSteps {
         System.out.println("JSON REPORT EXISTS: " + report.exists());
         System.out.println("JSON REPORT SIZE: " + report.length());
     }
+//
+//    @AfterAll
+//    public static void verifyReportGenerated() {
+//        Path report = Paths.get("target/cucumber.json");
+//        System.out.println("JSON REPORT EXISTS: " + Files.exists(report));
+//        System.out.println("JSON REPORT PATH: " + report.toAbsolutePath());
+//    }
 
-    @AfterAll
-    public static void verifyReportGenerated() {
-        Path report = Paths.get("target/cucumber.json");
-        System.out.println("JSON REPORT EXISTS: " + Files.exists(report));
-        System.out.println("JSON REPORT PATH: " + report.toAbsolutePath());
-    }
-
-    @Before
-    public void verifyReporting() {
-        System.out.println("REPORT VERIFICATION:");
-        System.out.println("Working Dir: " + new File("").getAbsolutePath());
-        File reportDir = new File("target/cucumber-reports");
-        reportDir.mkdirs();
-        System.out.println("Report Dir exists: " + reportDir.exists());
-    }
+//    @Before
+//    public void verifyReporting() {
+//        System.out.println("REPORT VERIFICATION:");
+//        System.out.println("Working Dir: " + new File("").getAbsolutePath());
+//        File reportDir = new File("target/cucumber-reports");
+//        reportDir.mkdirs();
+//        System.out.println("Report Dir exists: " + reportDir.exists());
+//    }
 
     @When("Click on Create A New Account button")
     public void clickOnCreateANewAccountButton() {
@@ -206,7 +206,6 @@ public class RegistrationSteps {
         String actualUrl = ConfigReader.getProperty(url);
         driver.get(actualUrl);}
 
-    // Date of Birth
     @When("Enter valid date of birth {string}")
     public void enterDateOfBirth(String dob) {
         try {
@@ -219,7 +218,6 @@ public class RegistrationSteps {
         }
     }
 
-    // First Name
     @When("Enter valid first name {string}")
     public void enterFirstName(String firstName) {
         try {
@@ -232,7 +230,6 @@ public class RegistrationSteps {
         }
     }
 
-    // Last Name
     @When("Enter valid last name {string}")
     public void enterLastName(String lastName) {
         try {
@@ -245,7 +242,6 @@ public class RegistrationSteps {
         }
     }
 
-    // Email
     @When("Enter valid email {string}")
     public void enterEmail(String email) {
         try {
@@ -258,7 +254,6 @@ public class RegistrationSteps {
         }
     }
 
-    // Confirm Email
     @When("Enter valid confirm email {string}")
     public void enterConfirmEmail(String confirmEmail) {
         try {
@@ -271,7 +266,6 @@ public class RegistrationSteps {
         }
     }
 
-    // Password
     @When("Enter valid password {string}")
     public void enterPassword(String password) {
         try {
@@ -284,7 +278,6 @@ public class RegistrationSteps {
         }
     }
 
-    // Confirm Password
     @When("Enter valid confirm password {string}")
     public void enterConfirmPassword(String confirmPassword) {
         try {
@@ -297,7 +290,6 @@ public class RegistrationSteps {
         }
     }
 
-    // Do NOT Accept
     @But("Do NOT Accept Terms and Conditions")
     public void doNOTAcceptTermsAndConditions() {
     }

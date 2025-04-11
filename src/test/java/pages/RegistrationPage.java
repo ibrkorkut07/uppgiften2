@@ -29,14 +29,9 @@ public class RegistrationPage {
     public WebElement confirmPasswordError;
     @FindBy(css = "label[for='sign_up_25']") public WebElement termsAcceptionBox;
     @FindBy(css = "label[for='sign_up_26']") public WebElement age18ConfirmLabel;
-    // @FindBy(xpath = "//label[@for='fannembersignup_agreetocodeofethicsandconduct']") public WebElement codeOfConductLabel;
-    @FindBy(css = "span.inc") public WebElement codeOfConductLabel;
     @FindBy(xpath = "//*[@id=\"signup_form\"]/div[11]/div/div[2]/div[1]/label") public WebElement codeOfConductCheckbox;
-
     @FindBy(xpath = "//h2[contains(text(), 'Change your password')]") public WebElement changePasswordAlert;
-
     @FindBy(xpath = "//button[contains(text(), 'OK') or contains(text(), 'Continue')]") public WebElement alertOkButton;
-
     @FindBy(name = "join") public WebElement confirmAndJoinButton;
     @FindBy(xpath = "//button[contains(., 'OK')]") public WebElement changePasswordOkButton;
     @FindBy(xpath = "//h2[contains(@class, 'bold') and contains(text(), 'THANK YOU FOR CREATING AN ACCOUNT')]")
@@ -52,10 +47,6 @@ public class RegistrationPage {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
-    }
-
-     public void enterFirstName(String firstName) {
-        wait.until(ExpectedConditions.visibilityOf(firstNameField)).sendKeys(firstName);
     }
 
 
