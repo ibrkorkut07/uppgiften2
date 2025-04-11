@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>uppgiften2</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
+        <cucumber.version>7.14.0</cucumber.version>
+        <selenium.version>4.16.1</selenium.version>
+        <webdrivermanager.version>5.6.3</webdrivermanager.version>
+        <cucumber.filter.name></cucumber.filter.name>
+        <!-- Add these with empty default values -->
+        <cucumber.tags></cucumber.tags>
+        <cucumber.scenario></cucumber.scenario>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <!-- WebDriverManager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+
+        <!-- Cucumber -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- DevTools for Chromium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-devtools-v119</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <!-- Commons IO -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <!-- Pretty Cucumber Reports -->
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>5.8.4</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 1. Test Execution (NO CHANGES) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <systemPropertyVariables>
+                        <cucumber.plugin>pretty, html:target/cucumber.html, json:target/cucumber.json</cucumber.plugin>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+
+            <!-- 2. WORKING Reporting Plugin -->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.8.4</version>
+                <executions>
+                    <execution>
+                        <id>generate-reports</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <!-- ABSOLUTE PATHS PREVENT NULL ERRORS -->
+                            <projectName>My Project</projectName>
+                            <outputDirectory>${project.build.directory}/cucumber-reports-advanced</outputDirectory>
+                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <jsonFiles>
+                                <param>cucumber.json</param>
+                            </jsonFiles>
+                            <checkBuildResult>false</checkBuildResult>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+        <!--        cd "C:\Users\ibrko\OneDrive\Desktop\000 EC TESTER PROGRAM\02 INTRODUCTION TO TILL PROGRAMMERING\testAutomation_Uppgiften2"-->
+        <!--  To CLEAN your project (it runs in Chrome): mvn clean install
+              To VERIFY DEPENDENCIES: mvn dependency:tree | grep selenium
+              To RUN TESTS on Firefox WITHOUT CHANGING DRIVER: mvn test -Dbrowser=firefox                  -->
+
+        <!--    Run SPECIFIC TESTS on IntelliJ with Maven: Tag your Scenario in the feature file (e.g., @smoke):
+                Method 1:   Combine tags (AND/OR logic):
+                        # AND (both tags): mvn test -Dcucumber.filter.tags="@smoke and @firefox"
+                        # OR (either tag): mvn test -Dcucumber.filter.tags="@smoke or @regression"
+                        # Exclude tags: mvn test -Dcucumber.filter.tags="not @wip"
+                Method 2:   Run by Tag (Recommended)
+                            mvn test -Dbrowser=firefox -Dcucumber.filter.tags="@smoke"
+                Method 3:   Run by Scenario Name (Use the exact Scenario name (spaces matter!):
+                            mvn test -Dbrowser=firefox -Dcucumber.features="src/test/resources/features/registration.feature" -Dcucumber.filter.name="^Successful registration with valid credentials$"
+                Method 4:   Run by Line Number
+                            1. Escape the Colon (PowerShell-specific) (Note the backtick before the colon)
+                            mvn test -Dbrowser=firefox "-Dcucumber.features=src/test/resources/features/registration.feature`:27"
+                            2. Use Single Quotes + Escape
+                            mvn test -Dbrowser=firefox '-Dcucumber.features=src/test/resources/features/registration.feature:27'
+                            3. Use Double Quotes at the end
+                            mvn test "-Dbrowser=firefox" "-Dcucumber.features=`"src/test/resources/features/registration.feature:27`""
+        -->
