@@ -7,10 +7,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class Driver {
-    private static WebDriver driver;
+    public static WebDriver driver;
 
     public static WebDriver getDriver() {
-        String browser = System.getProperty("browser", "chrome"); // Default: Chrome
+        String browser = System.getProperty("browser", "chrome");
         if (driver == null) {
             switch (browser.toLowerCase()) {
                 case "chrome":
@@ -27,13 +27,14 @@ public class Driver {
                 default:
                     throw new IllegalArgumentException("Unsupported browser: " + browser);
             }
+            driver.manage().window().maximize();
         }
         return driver;
     }
 
     public static void quitDriver() {
         if (driver != null) {
-            // driver.quit();
+            driver.quit();
             driver = null;
         }
     }

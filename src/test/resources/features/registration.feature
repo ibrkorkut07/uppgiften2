@@ -15,7 +15,6 @@
     And Click on Confirm and Join button
     Then Click OK on Alert Window
     Then See THANK YOU FOR CREATING AN ACCOUNT Text
-    Then Click on GO TO MY LOCKER button
 
     Examples:
       | dateOfBirth| firstName | lastName | email                 | confirmEmail          |password  | confirmPassword |

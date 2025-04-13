@@ -38,8 +38,6 @@ public class RegistrationPage {
     public WebElement thankYouHeader;
     @FindBy(xpath = "//span[@for='TermsAccept' and contains(text(), 'You must confirm that you have read and accepted our Terms and Conditions')]")
     public WebElement acceptTermsMessage;
-//    @FindBy(xpath = "//a[contains(@href, 'obstainlessingNumber')]")
-//    public WebElement goToMyLockerButton;
     @FindBy(xpath = "//a[@class='btn red' and contains(@href, 'obstainlessingNumber')]")
     public WebElement goToMyLockerButton;
 
