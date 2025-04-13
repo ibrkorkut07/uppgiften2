@@ -10,7 +10,7 @@ public class Driver {
     private static WebDriver driver;
 
     public static WebDriver getDriver() {
-        String browser = System.getProperty("browser", "chrome"); // Default: Chrome
+        String browser = System.getProperty("browser", "chrome");
         if (driver == null) {
             switch (browser.toLowerCase()) {
                 case "chrome":

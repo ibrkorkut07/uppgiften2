@@ -17,7 +17,7 @@ public class ScreenshotUtils {
     }
     public static String takeScreenshot(WebDriver driver, String testName) {
         try {
-            // Create directory if it doesn't exist
+            // Creates directory if it doesn't exist
             new File(SCREENSHOT_DIR).mkdirs();
 
             // Generate timestamp
@@ -25,7 +25,7 @@ public class ScreenshotUtils {
             String fileName = testName + "_" + timestamp + ".png";
             String filePath = SCREENSHOT_DIR + fileName;
 
-            // Take and save screenshot
+            // Takes and saves screenshots
             File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(screenshot, new File(filePath));
 

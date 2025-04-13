@@ -91,18 +91,6 @@ public class RegistrationSteps {
         }
     }
 
-    @When("Enter valid {string}, {string}, {string}, {string}, {string}, {string}, {string} registration details:")
-    public void enterValidRegistrationDetails(String dateOfBirth, String firstName, String lastName,
-                                              String email, String confirmEmail, String password, String confirmPassword) {
-        wait.until(ExpectedConditions.visibilityOf(registrationPage.dateOfBirthField)).sendKeys(dateOfBirth);
-        wait.until(ExpectedConditions.visibilityOf(registrationPage.firstNameField)).sendKeys(firstName);
-        wait.until(ExpectedConditions.visibilityOf(registrationPage.lastNameField)).sendKeys(lastName);
-        wait.until(ExpectedConditions.visibilityOf(registrationPage.emailField)).sendKeys(email);
-        wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmEmailField)).sendKeys(confirmEmail);
-        wait.until(ExpectedConditions.visibilityOf(registrationPage.passwordField)).sendKeys(password);
-        wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmPasswordField)).sendKeys(confirmPassword);
-    }
-
     @Then("Click OK on Alert Window")
     public void clickOnAlertWindow() {
         try {
@@ -279,5 +267,17 @@ public class RegistrationSteps {
         } catch (Exception e) {
             System.out.println("Failed to take screenshot: " + e.getMessage());
         }
+    }
+
+    @When("Enter valid {string}, {string}, {string}, {string}, {string}, {string},  {string} registration details:")
+    public void enterValidRegistrationDetails(String dateOfBirth, String firstName, String lastName,
+                                              String email, String confirmEmail, String password, String confirmPassword) {
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.dateOfBirthField)).sendKeys(dateOfBirth);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.firstNameField)).sendKeys(firstName);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.lastNameField)).sendKeys(lastName);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.emailField)).sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmEmailField)).sendKeys(confirmEmail);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.passwordField)).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOf(registrationPage.confirmPasswordField)).sendKeys(confirmPassword);
     }
 }
